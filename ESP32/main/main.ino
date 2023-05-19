@@ -27,11 +27,17 @@ int bandera_modo = 0;
 
 int indicador_dato_java = 2;
 
+int variador_envio = 1;
+int variador_envio2 = 1;
+
+
+
                       
 void setup() {
   SerialESP32.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
   Serial.begin(9600);
   pinMode(indicador_dato_java,OUTPUT);
+  setup_JAVA();
   setup_PID();
   setup_Peso();
   setup_alarmas();
@@ -41,10 +47,13 @@ void setup() {
 
 void loop() {
 
-  Serial.println("Datos recibidos desde Java: " + inputString);
-  recepcion_JAVA();
+  
+  recepcion_ARDUINO();
+  //recepcion_JAVA();
+  //envio_JAVA();
   
   switch (Valores_JAVA[0]) {
+    
      // Enviar datos tecnicos por puerto serial para mostrar en ventana datos tecnicos.
     case 0: 
 

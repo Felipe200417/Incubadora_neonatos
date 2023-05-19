@@ -11,8 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import gnu.io.*;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import panamahitek.Arduino.*;
 
 
 
@@ -25,14 +28,42 @@ public class PI extends JFrame {
     boolean LUZ = false , VENTILADOR = false;
     String portName = "COM11";
     int baudRate = 9600;
+    SerialPort serialPort;
     String[] ESP32 = new String[3];
+    String receivedData;
+    String[] Datareceived_ESP32 = new String[3];
     
+    
+    
+    
+    PanamaHitek_Arduino recepcion_ESP = new PanamaHitek_Arduino();
+    private SerialPortEventListener listener = new SerialPortEventListener(){
+        @Override
+        public void serialEvent(SerialPortEvent spe){
+            if(recepcion_ESP.isMessageAvailable()){
+                receivedData = recepcion_ESP.printMessage();
+                Datareceived_ESP32 = receivedData.split(",");
+                System.out.println(Datareceived_ESP32[0]);
+                System.out.println(Datareceived_ESP32[1]);
+                System.out.println(Datareceived_ESP32[2]);
+                System.out.println(Datareceived_ESP32[3]);
+                
+            }
+        }
+    };
+        
     
     public PI() {
         
         
         super("Incubadora");
         
+        
+        try {
+            recepcion_ESP.arduinoRXTX(portName, baudRate,listener); // Reemplaza "COM3" con el puerto COM adecuado
+        } catch (Exception ex) {
+            Logger.getLogger(PI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         setSize(900, 800);
         setLocationRelativeTo(null);
@@ -46,32 +77,6 @@ public class PI extends JFrame {
 
         setVisible(true);
     }
-    
-
-
-
-
-
-
-    public void send(String data) throws UnsupportedCommOperationException, IOException, NoSuchPortException, PortInUseException {
-        
-            // Abre el puerto serial
-            CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-            CommPort commPort = portIdentifier.open(PI.class.getName(), 1000);
-                
-            SerialPort serialPort = (SerialPort) commPort;
-            serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-            OutputStream outputStream = serialPort.getOutputStream();
-
-            // Envía los datos a la ESP32
-            outputStream.write(data.getBytes());
-
-            // Cierra el puerto serial
-            outputStream.close();
-            serialPort.close();
-     }
-    
-
 
     public void CrearGUI(){
         
@@ -174,6 +179,7 @@ public class PI extends JFrame {
     
     public static void main(String[] args) {
         PI pr = new PI();
+        //pr.initialize();
     }
     
 }

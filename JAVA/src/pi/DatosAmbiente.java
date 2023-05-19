@@ -51,8 +51,8 @@ public class DatosAmbiente extends JFrame{
     public void CrearGUI() {
         
         
-        String Hum = ""+Humedad+"%";
-        String TempAmbiente = ""+TempAmb+" °C";
+        String Hum = ""+obj.Datareceived_ESP32[0]+"%";
+        String TempAmbiente = ""+obj.Datareceived_ESP32[1]+" °C";
         
         JLabel jlTemp = new JLabel(TempAmbiente);
         jlTemp.setFont(new Font("Tahoma", Font.BOLD, 26));

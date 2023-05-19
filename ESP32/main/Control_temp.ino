@@ -1,4 +1,3 @@
-
 #define DHTPin 23                                              // Salida del sensor de temp y hum.
 #define DHTTipo DHT11                                         // Sensor tipo DHT11.
 
@@ -45,8 +44,8 @@ void Dimer(){                      // Función del Dimer, detecta el cruce por c
 }
   
 void IRAM_ATTR onTimer(){   // Se ejecuta cada 40 microsegundos...
-       
-    Dimer();
+  
+      Dimer();
     //digitalWrite(LED, !digitalRead(LED));
 }
 
