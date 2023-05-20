@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class Modo extends JFrame {
+public class Modo extends JFrame{
 
     VentanaLogin obj;
     PI pi;
@@ -120,7 +120,6 @@ public class Modo extends JFrame {
     }
 
     public void EventoActuadores() {
-        
         
         Actuadores as = new Actuadores(this,pi);
         setVisible(false);

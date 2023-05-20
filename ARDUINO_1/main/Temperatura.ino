@@ -8,7 +8,6 @@
 OneWire oneWire(Sensor_DS18B20);
 DallasTemperature SensorTemp(&oneWire);
 
-
 float tempT;
 float* tempC = &tempT;
 
@@ -23,7 +22,7 @@ float Temperatura(){
 }
 
 void Ejecutar_temperatura(){
-  float temperatura = Temperatura();
+  temperatura = Temperatura();
   Serial.println("Temperatura: " + String(temperatura) + " °C");
     
 }

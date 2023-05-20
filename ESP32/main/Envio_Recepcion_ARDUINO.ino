@@ -6,7 +6,7 @@ void recepcion_ARDUINO(){
     int i = 0;
     while (token != NULL && i < NUM_SENSORS) {
       Valores_sensores_ARDUINO[i] = String(token); // Convertir el token actual a un valor entero y almacenarlo en el arreglo
-      Serial.println(Valores_sensores_ARDUINO[i]);
+      //Serial.println(Valores_sensores_ARDUINO[i]);
       token = strtok(NULL, ","); // Obtener el siguiente token
       i++;
     }

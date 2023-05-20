@@ -6,17 +6,25 @@
 SoftwareSerial espSerial(RX_PIN, TX_PIN);
 String dato;
 
+float temperatura;
+
+
+String tempCStr;
+
 void setup(){
 
   espSerial.begin(9600);
-  //setup_ECG();
-  //setup_Temperatura();
+  setup_ECG();
+  setup_Temperatura();
 }
 
 void loop(){
 
-  dato = "160,2,3,";
+  Ejecutar_temperatura();
+  tempCStr = String(temperatura);
+  dato = tempCStr+",40,30,";
   espSerial.println(dato);
+  Serial.println(dato);
   delay(1000);
   //Ejecutar_temperatura();
   //ECG();

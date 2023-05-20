@@ -49,8 +49,8 @@ void loop() {
 
   
   recepcion_ARDUINO();
-  //recepcion_JAVA();
-  //envio_JAVA();
+  recepcion_JAVA();
+  envio_JAVA();
   
   switch (Valores_JAVA[0]) {
     
