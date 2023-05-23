@@ -102,7 +102,7 @@ public class Modo extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     pi.ESP32[0] = "1";
-                    dato_a_enviar = ","+pi.ESP32[0]+","+"\n";
+                    dato_a_enviar = pi.ESP32[0]+","+"\n";
                     System.out.print(dato_a_enviar);
                     pi.recepcion_ESP.sendData(dato_a_enviar);
                 } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {  

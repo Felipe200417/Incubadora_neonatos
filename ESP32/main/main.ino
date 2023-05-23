@@ -4,8 +4,7 @@
 //Incluye las librerías
 #include <HX711.h>
 #include <Wire.h> 
-//#include <LiquidCrystal_I2C.h>
-#include <EEPROM.h>
+
 
 // Crea un objeto HardwareSerial para la comunicación serial
 HardwareSerial SerialESP32(1);
@@ -20,15 +19,17 @@ int Valores_JAVA[NUM_DATOS_JAVA];
 String inputString;
 
 int temp, hum;                                              // Variables que guardan la temperatura y la humedad respectivamente.
+float peso; 
 
 int bandera_java;                                 //Variable proporcionada por la GUI de JAVA
 int bandera_alarmas;
 int bandera_modo = 0;
 
-int indicador_dato_java = 2;
+const int indicador_dato_java = 15;
 
 int variador_envio = 1;
 int variador_envio2 = 1;
+int dim;                                              // Controla la intensidad de iluminación, 0 = ON ; 179 = OFF 
 
 
 
@@ -48,11 +49,11 @@ void setup() {
 void loop() {
 
   
-  recepcion_ARDUINO();
+  //recepcion_ARDUINO();
   recepcion_JAVA();
   envio_JAVA();
   
-  switch (Valores_JAVA[0]) {
+  switch (Valores_JAVA[0]){
     
      // Enviar datos tecnicos por puerto serial para mostrar en ventana datos tecnicos.
     case 0: 
@@ -67,7 +68,7 @@ void loop() {
         digitalWrite(indicador_dato_java,HIGH);
         bandera_modo = 1;
         //Serial.println("modo manual");
-        //modo_manual();
+        modo_manual();
         break;
       
 
@@ -76,8 +77,7 @@ void loop() {
 
         digitalWrite(indicador_dato_java,LOW);
         bandera_modo = 2;
-        //Serial.println("modo automatico");
-        //modo_automatico();
+        modo_automatico();
         break;
 
     default: break;

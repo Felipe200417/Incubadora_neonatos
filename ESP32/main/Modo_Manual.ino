@@ -1,7 +1,7 @@
 // Variables a controlar manualmente
-const int ventilador = 19;
-const int luz_uv = 21;
-const int extractor = 15;
+const int ventilador = 21;
+const int luz_uv = 22;
+const int extractor = 18;
 
 
 void setup_Manual(){

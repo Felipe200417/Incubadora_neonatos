@@ -1,0 +1,32 @@
+Control PID
+
+pulso............................ pin 4
+triac............................ pin 19
+
+módulo puente H
+
+	IN1....................... pin 18       luz uv
+	IN2....................... pin 21       Ventilador centrífugo
+
+tarjeta relés 2
+
+	Pin 22				         extractor
+
+tarjeta relés 1
+
+	Pin 1...................... pin 0     naranja
+	Pin 2...................... pin 12    verde
+	Pin 3...................... pin 13    rojo
+
+sensor dht11..................... pin 33
+
+sensor magnético ................ pin 23
+
+Módulo celda de carga
+
+	DT......................... pin 25
+	SCK........................ pin 26
+
+escala = -174
+	
+	

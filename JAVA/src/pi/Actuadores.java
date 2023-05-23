@@ -1,9 +1,15 @@
 package pi;
 
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
+import gnu.io.UnsupportedCommOperationException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,8 +24,11 @@ public class Actuadores extends JFrame {
     Modo ob;
     JButton jbVolver, AcLUZ, AcVentilador, AcHumnificador, jbIngreso, jbIngresoPeso, jbTara, jbMode;
     JTextField jtTempESP, jtPesoESP;
-    float TemperaturaActual = 00, TemperaturaPID = 00,PesoBascula = 00;
-    double TemperaturaESP,PesoESP;
+    float TemperaturaActual = 00, TemperaturaPID = 00, PesoBascula = 00;
+    double TemperaturaESP, PesoESP;
+    String dato_a_enviar = "";
+    JLabel OFF1, ON1;
+    JLabel OFF2, ON2;
 
     public Actuadores(Modo obj2, PI pi1) {
 
@@ -55,7 +64,7 @@ public class Actuadores extends JFrame {
     }
 
     public void CrearGUI() {
-        
+
         Salir();
 
         ImageIcon Tara = new ImageIcon(getClass().getResource("../Imagenes/BotonTara.png"));
@@ -113,8 +122,7 @@ public class Actuadores extends JFrame {
         String tempAc = "" + TemperaturaActual + " °C";
         String tempPID = "" + TemperaturaPID + " °C";
         String PesoPID = "" + PesoBascula + " °gr";
-        
-        
+
         JLabel jlPeso = new JLabel(PesoPID);
         jlPeso.setFont(new Font("Tahoma", Font.BOLD, 30));
         jlPeso.setBounds(835, 410, 300, 48);
@@ -142,24 +150,34 @@ public class Actuadores extends JFrame {
         ImageIcon ON = new ImageIcon(getClass().getResource("../Imagenes/ON.png"));
         ImageIcon OFF = new ImageIcon(getClass().getResource("../Imagenes/OFF.png"));
 
+        OFF1 = new JLabel(OFF);
+        OFF1.setBounds(130, 180, 100, 100);
+        add(OFF1);
+
+        ON1 = new JLabel(ON);
+        ON1.setBounds(130, 180, 100, 100);
+        add(ON1);
+
         if (!pi.LUZ) {
-            JLabel OFF1 = new JLabel(OFF);
-            OFF1.setBounds(130, 180, 100, 100);
-            add(OFF1);
+            OFF1.setVisible(true);
+            ON1.setVisible(false);
         } else {
-            JLabel ON1 = new JLabel(ON);
-            ON1.setBounds(130, 180, 100, 100);
-            add(ON1);
+            OFF1.setVisible(false);
+            ON1.setVisible(true);
         }
 
+        OFF2 = new JLabel(OFF);
+        OFF2.setBounds(530, 180, 100, 100);
+        add(OFF2);
+        ON2 = new JLabel(ON);
+        ON2.setBounds(530, 180, 100, 100);
+        add(ON2);
         if (!pi.VENTILADOR) {
-            JLabel OFF1 = new JLabel(OFF);
-            OFF1.setBounds(530, 180, 100, 100);
-            add(OFF1);
+            OFF2.setVisible(true);
+            ON2.setVisible(false);
         } else {
-            JLabel ON1 = new JLabel(ON);
-            ON1.setBounds(530, 180, 100, 100);
-            add(ON1);
+            OFF2.setVisible(false);
+            ON2.setVisible(true);
         }
 
         ImageIcon Img1 = new ImageIcon(getClass().getResource("../Imagenes/TituloAct.png"));
@@ -180,11 +198,33 @@ public class Actuadores extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!pi.LUZ) {
                     JOptionPane.showMessageDialog(null, "Se encendio la luz UV");
+                    try {
+                        pi.ESP32[1] = "21";
+                        dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + "\n";
+                        System.out.println(dato_a_enviar);
+                        pi.recepcion_ESP.sendData(dato_a_enviar);
+                    } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {
+                    } catch (Exception ex) {
+                        Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     pi.LUZ = true;
+                    OFF1.setVisible(false);
+                    ON1.setVisible(true);
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Se apago la luz UV");
+                    try {
+                        pi.ESP32[1] = "20";
+                        dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + "\n";
+                        System.out.println(dato_a_enviar);
+                        pi.recepcion_ESP.sendData(dato_a_enviar);
+                    } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {
+                    } catch (Exception ex) {
+                        Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     pi.LUZ = false;
+                    OFF1.setVisible(true);
+                    ON1.setVisible(false);
                 }
             }
         });
@@ -202,16 +242,36 @@ public class Actuadores extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!pi.VENTILADOR) {
                     JOptionPane.showMessageDialog(null, "Se encendio la ventilador");
+                    try {
+                        pi.ESP32[1] = "11";
+                        dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + "\n";
+                        System.out.println(dato_a_enviar);
+                        pi.recepcion_ESP.sendData(dato_a_enviar);
+                    } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {
+                    } catch (Exception ex) {
+                        Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     pi.VENTILADOR = true;
+                    OFF2.setVisible(false);
+                    ON2.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Se apago la  ventilador");
+                    try {
+                        pi.ESP32[1] = "10";
+                        dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + "\n";
+                        System.out.println(dato_a_enviar);
+                        pi.recepcion_ESP.sendData(dato_a_enviar);
+                    } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {
+                    } catch (Exception ex) {
+                        Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     pi.VENTILADOR = false;
+                    OFF2.setVisible(true);
+                    ON2.setVisible(false);
                 }
             }
         });
         add(AcVentilador);
-
-        
 
     }
 

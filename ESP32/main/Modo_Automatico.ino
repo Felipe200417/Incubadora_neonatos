@@ -1,7 +1,7 @@
 void modo_automatico(){
   
   PID_Temperatura();
-  //Get_peso();
+  Get_peso();
   //alarmas();
   
 }

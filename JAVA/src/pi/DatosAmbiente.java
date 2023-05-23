@@ -46,7 +46,7 @@ public class DatosAmbiente extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 dispose();
-                obj.setVisible(false);
+                obj.setVisible(true);
             }
         });
         add(jbVolver);
@@ -68,6 +68,7 @@ public class DatosAmbiente extends JFrame{
         jlHum.setBounds(500, 230, 300, 48);
         jlHum.setForeground(Color.white);
         add(jlHum);
+        obj.TempHum = jlHum;
 
         ImageIcon Img1 = new ImageIcon(getClass().getResource("../Imagenes/DatosAmbiente.png"));
         JLabel jlTitulo = new JLabel(Img1);

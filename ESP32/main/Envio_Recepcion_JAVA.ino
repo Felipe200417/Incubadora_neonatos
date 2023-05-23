@@ -10,7 +10,7 @@ void setup_JAVA(){
 
     My_timer1 = timerBegin(0, 80, true); // Conf del timer. Timer 1/preescalador/conteo ascendente.
     timerAttachInterrupt(My_timer1, &tiempo_envioJAVA, true);
-    timerAlarmWrite(My_timer1, 2000000, true);
+    timerAlarmWrite(My_timer1, 1000000, true);
     timerAlarmEnable(My_timer1); 
     
 }  
@@ -19,7 +19,7 @@ void setup_JAVA(){
 void envio_JAVA(){
     if (Serial.available() <= 0){
       if(variador_envio%2 == 0){
-      Serial.println("40,"+Valores_sensores_ARDUINO[0]+",10,");
+      Serial.println(String(temp)+","+String(peso)+","+String(dim));
       variador_envio++;
     }
     }

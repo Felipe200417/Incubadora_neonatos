@@ -1,5 +1,7 @@
 package pi;
 
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,13 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import gnu.io.*;
-import java.io.*;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import panamahitek.Arduino.*;
+import panamahitek.Arduino.PanamaHitek_Arduino;
 
 public class PI extends JFrame implements SerialPortEventListener {
 
@@ -22,11 +20,11 @@ public class PI extends JFrame implements SerialPortEventListener {
     boolean LUZ = false, VENTILADOR = false;
     String portName = "COM11";
     int baudRate = 9600;
-    SerialPort serialPort;
     String[] ESP32 = new String[3];
     String receivedData;
     String[] Datareceived_ESP32 = new String[3];
     JLabel TempAmb = null;
+    JLabel TempHum = null;
 
     PanamaHitek_Arduino recepcion_ESP = new PanamaHitek_Arduino();
 
@@ -152,12 +150,13 @@ public class PI extends JFrame implements SerialPortEventListener {
     @Override
     public void serialEvent(SerialPortEvent spe) {
         if (recepcion_ESP.isMessageAvailable()) {
-            
-            if(TempAmb != null){
-            TempAmb.setText(Datareceived_ESP32[1]);
-            
+
+            if (TempAmb != null) {
+                TempAmb.setText(Datareceived_ESP32[0]);
+                TempHum.setText(Datareceived_ESP32[1]);
+
             }
-              
+
             receivedData = recepcion_ESP.printMessage();
             Datareceived_ESP32 = receivedData.split(",");
             System.out.println(Datareceived_ESP32[0]);
