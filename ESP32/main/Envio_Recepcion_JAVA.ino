@@ -19,7 +19,7 @@ void setup_JAVA(){
 void envio_JAVA(){
     if (Serial.available() <= 0){
       if(variador_envio%2 == 0){
-      Serial.println(String(temp)+","+String(peso)+","+String(dim));
+      Serial.println(String(temp)+","+String(peso)+","+String(dim)+",80,");
       variador_envio++;
     }
     }

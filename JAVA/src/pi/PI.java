@@ -20,12 +20,14 @@ public class PI extends JFrame implements SerialPortEventListener {
     boolean LUZ = false, VENTILADOR = false;
     String portName = "COM11";
     int baudRate = 9600;
-    String[] ESP32 = new String[3];
+    String[] ESP32 = new String[4];
     String receivedData;
     String[] Datareceived_ESP32 = new String[3];
     JLabel TempAmb = null;
     JLabel TempHum = null;
-
+    JFrame actual;
+    boolean isAlert = false;
+    
     PanamaHitek_Arduino recepcion_ESP = new PanamaHitek_Arduino();
 
     public PI() {
@@ -37,7 +39,7 @@ public class PI extends JFrame implements SerialPortEventListener {
         } catch (Exception ex) {
             Logger.getLogger(PI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         setSize(900, 800);
         setLocationRelativeTo(null);
 
@@ -46,6 +48,7 @@ public class PI extends JFrame implements SerialPortEventListener {
         getContentPane().setBackground(new Color(0, 51, 153));
 
         setLayout(null);
+        actual = this;
         CrearGUI();
 
         setVisible(true);
@@ -118,13 +121,13 @@ public class PI extends JFrame implements SerialPortEventListener {
     }
 
     public void EventoDatosBB() {
-        DatosBebe db = new DatosBebe(this);
+        actual = new DatosBebe(this);
         setVisible(false);
     }
 
     public void EventoDatosAmbiente() {
 
-        DatosAmbiente da = new DatosAmbiente(this);
+        actual = new DatosAmbiente(this);
         setVisible(false);
     }
 
@@ -133,12 +136,12 @@ public class PI extends JFrame implements SerialPortEventListener {
     }
 
     public void EventoModo() {
-        VentanaLogin mp = new VentanaLogin(this);
+        actual = new VentanaLogin(this);
         setVisible(false);
     }
 
     public void EventoFormulario() {
-        Entidad fr = new Entidad(this);
+        actual = new Entidad(this);
         setVisible(false);
     }
 
@@ -159,10 +162,16 @@ public class PI extends JFrame implements SerialPortEventListener {
 
             receivedData = recepcion_ESP.printMessage();
             Datareceived_ESP32 = receivedData.split(",");
+            if(Datareceived_ESP32[3].equals("80") && !isAlert){
+                System.out.println("JEJE");
+                new AlertaDialog(this,  "ALERTA", "MENSAJE");
+                isAlert = true;
+            }
             System.out.println(Datareceived_ESP32[0]);
             System.out.println(Datareceived_ESP32[1]);
-            System.out.println(Datareceived_ESP32[2]);
+            System.out.println(Datareceived_ESP32[2] + " ....");
             System.out.println(Datareceived_ESP32[3]);
+            
 
         }
     }
