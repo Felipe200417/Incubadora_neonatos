@@ -136,7 +136,8 @@ public class PI extends JFrame implements SerialPortEventListener {
     }
 
     public void EventoDatosBB() {
-        actual = new Electrocardiograma(this);
+        DatosBebe db = new DatosBebe(this);
+        EDG edg = new EDG();
         setVisible(false);
     }
 
