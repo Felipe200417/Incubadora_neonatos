@@ -6,6 +6,12 @@
 #include <Wire.h> 
 
 
+#define DHTPin 33                                              // Salida del sensor de temp y hum.
+#define DHTTipo DHT11                                         // Sensor tipo DHT11.
+
+DHT dht(DHTPin, DHTTipo);            // Se crea un objeto dht.
+
+
 // Crea un objeto HardwareSerial para la comunicación serial
 HardwareSerial SerialESP32(1);
 const int RX_PIN = 16;                             // Define los pines RX y TX para la comunicación serial
@@ -14,16 +20,19 @@ const int TX_PIN = 17;
 const int NUM_SENSORS = 3; // Número de sensores
 String Valores_sensores_ARDUINO[NUM_SENSORS];
 
-const int NUM_DATOS_JAVA = 3; // Número de sensores
+const int NUM_DATOS_JAVA = 4; // Número de datos de JAVA
 int Valores_JAVA[NUM_DATOS_JAVA];
 String inputString;
 
-int temp, hum;                                              // Variables que guardan la temperatura y la humedad respectivamente.
+float temp, hum;                                              // Variables que guardan la temperatura y la humedad respectivamente.
 float peso; 
 
 int bandera_java;                                 //Variable proporcionada por la GUI de JAVA
-int bandera_alarmas;
+int bandera_alarmas = 0;
 int bandera_modo = 0;
+
+
+double Sep_temp = 37.00;                   // Seteo de la temperatura.
 
 const int indicador_dato_java = 15;
 
@@ -47,7 +56,6 @@ void setup() {
 }
 
 void loop() {
-
   
   //recepcion_ARDUINO();
   recepcion_JAVA();

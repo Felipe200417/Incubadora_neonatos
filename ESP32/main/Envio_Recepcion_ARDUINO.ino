@@ -12,8 +12,3 @@ void recepcion_ARDUINO(){
     }
   }
 }
-
-
-void envio_ARDUINO(int i){
-  SerialESP32.println(i);
-}

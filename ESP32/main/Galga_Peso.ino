@@ -22,8 +22,9 @@ void Get_peso(){
   
   peso = balanza.get_units(10);
   //Botón de Tara
-  /*]if(digitalRead(tara)){  
+  if(Valores_JAVA[2] == 1){ 
         balanza.tare(10);  //El peso actual es considerado Tara.
-  }*/
+        Valores_JAVA[2] = 0;
+  }
   
 }

@@ -32,6 +32,15 @@ public class Modo extends JFrame{
   
         pi = pi1;
         obj = obj1;
+         try {
+                    pi.ESP32[0] = "0";
+                    dato_a_enviar = ","+pi.ESP32[0]+","+"\n";
+                    System.out.println(dato_a_enviar);
+                    pi.recepcion_ESP.sendData(dato_a_enviar);
+                } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {  
+                } catch (Exception ex) {
+                    Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setSize(500, 400);
         setLocationRelativeTo(null);
         setResizable(false);

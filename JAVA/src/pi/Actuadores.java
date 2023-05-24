@@ -24,7 +24,6 @@ public class Actuadores extends JFrame {
     Modo ob;
     JButton jbVolver, AcLUZ, AcVentilador, AcHumnificador, jbIngreso, jbIngresoPeso, jbTara, jbMode;
     JTextField jtTempESP, jtPesoESP;
-    float TemperaturaActual = 00, TemperaturaPID = 00, PesoBascula = 00;
     double TemperaturaESP, PesoESP;
     String dato_a_enviar = "";
     JLabel OFF1, ON1;
@@ -73,7 +72,14 @@ public class Actuadores extends JFrame {
         jbTara.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Hecho");
+               try {
+                    pi.ESP32[2] = "1";
+                    dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + pi.ESP32[2]+","+"\n";
+                    pi.recepcion_ESP.sendData(dato_a_enviar);
+                    JOptionPane.showMessageDialog(null, "Hecho");
+                } catch (Exception ex) {
+                    Logger.getLogger(Actuadores.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         add(jbTara);
@@ -84,7 +90,8 @@ public class Actuadores extends JFrame {
         jbMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Hecho");
+                
+                
             }
         });
         add(jbMode);
@@ -96,6 +103,7 @@ public class Actuadores extends JFrame {
         jtPesoESP = new JTextField();
         jtPesoESP.setBounds(1000, 450, 100, 30);
         add(jtPesoESP);
+        
 
         JButton jbIngresoPeso = new JButton("Guardar");
         jbIngresoPeso.setBounds(1130, 450, 100, 30);
@@ -119,27 +127,31 @@ public class Actuadores extends JFrame {
         });
         add(jbIngreso);
 
-        String tempAc = "" + TemperaturaActual + " °C";
-        String tempPID = "" + TemperaturaPID + " °C";
-        String PesoPID = "" + PesoBascula + " °gr";
+        String tempAc = "" + pi.TemperaturaActual + " °C";
+        String tempPID = "" + pi.TemperaturaPID + " °C";
+        String PesoPID = "" + pi.PesoBascula + " °gr";
 
         JLabel jlPeso = new JLabel(PesoPID);
         jlPeso.setFont(new Font("Tahoma", Font.BOLD, 30));
         jlPeso.setBounds(835, 410, 300, 48);
         jlPeso.setForeground(Color.white);
         add(jlPeso);
+        pi.Peso_1 = jlPeso;
+        
 
         JLabel jlTemperaturaAc = new JLabel(tempAc);
         jlTemperaturaAc.setFont(new Font("Tahoma", Font.BOLD, 30));
         jlTemperaturaAc.setBounds(840, 160, 300, 48);
         jlTemperaturaAc.setForeground(Color.white);
         add(jlTemperaturaAc);
+         pi.TempAmb_1 = jlTemperaturaAc;
 
         JLabel jlTemperaturaPID = new JLabel(tempPID);
         jlTemperaturaPID.setFont(new Font("Tahoma", Font.BOLD, 30));
         jlTemperaturaPID.setBounds(1075, 160, 300, 48);
         jlTemperaturaPID.setForeground(Color.white);
         add(jlTemperaturaPID);
+        pi.Temp_PID = jlTemperaturaPID;
 
         ImageIcon DatosTecnicos = new ImageIcon(getClass().getResource("../Imagenes/DatosTecnicos.png"));
         JLabel jlDatosTecnicos = new JLabel(DatosTecnicos);
@@ -278,6 +290,14 @@ public class Actuadores extends JFrame {
     void evento_jbIngreso() {
         String jtEsp = jtTempESP.getText();
         TemperaturaESP = Double.parseDouble(jtEsp);
+         pi.ESP32[2] = "0";
+        pi.ESP32[3] = jtTempESP.getText();
+        dato_a_enviar = "," + pi.ESP32[0] + "," + pi.ESP32[1] + "," + pi.ESP32[2]+","+pi.ESP32[3]+",\n";
+        try {
+            pi.recepcion_ESP.sendData(dato_a_enviar);
+        } catch (Exception ex) {
+            Logger.getLogger(Actuadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(null, "Hecho");
         jtTempESP.setText(" ");
     }

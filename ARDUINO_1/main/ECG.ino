@@ -1,4 +1,3 @@
-#include <Wire.h>
 float Sign_AD8232;
 float *SingDef = &Sign_AD8232;
 
@@ -31,5 +30,5 @@ float Sing(){
 void ECG(){
   Sing();
   SingDef = &Sign_AD8232;
-  Serial.println(*SingDef);
+  ECG_lec = *SingDef;
 }

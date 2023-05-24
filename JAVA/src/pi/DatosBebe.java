@@ -65,6 +65,7 @@ public class DatosBebe extends JFrame {
         jlTemperatura.setBounds(220, 150, 300, 48);
         jlTemperatura.setForeground(Color.white);
         add(jlTemperatura);
+        obj.TempBebe = jlTemperatura;
         
         
         ImageIcon Img2 = new ImageIcon(getClass().getResource("../Imagenes/Temperatura.png"));
@@ -73,11 +74,13 @@ public class DatosBebe extends JFrame {
         add(jlTemp);
         
         
+        
         JLabel jlOxigeno = new JLabel(oxi);
         jlOxigeno.setFont(new Font("Tahoma", Font.BOLD, 26));
         jlOxigeno.setBounds(220, 250, 300, 48);
         jlOxigeno.setForeground(Color.white);
         add(jlOxigeno);
+        obj.Oxigeno_Sangre = jlOxigeno;
         
         ImageIcon Img3 = new ImageIcon(getClass().getResource("../Imagenes/Oxi.png"));
         JLabel jloxi = new JLabel(Img3);
@@ -89,6 +92,7 @@ public class DatosBebe extends JFrame {
         jlPeso.setBounds(120, 350, 300, 48);
         jlPeso.setForeground(Color.white);
         add(jlPeso);
+        obj.Peso = jlPeso;
         
         
         ImageIcon Img4 = new ImageIcon(getClass().getResource("../Imagenes/Peso.png"));

@@ -23,14 +23,11 @@ float Temperatura(){
 
 void Ejecutar_temperatura(){
   temperatura = Temperatura();
-  Serial.println("Temperatura: " + String(temperatura) + " °C");
-    
+      
 }
 
 
 void setup_Temperatura() {
-  //Serial.println("\n");
-  //Serial.begin(9600);
   pinMode(INPUT,Sensor_DS18B20);
   SensorTemp.begin();
 }

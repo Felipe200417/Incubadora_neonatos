@@ -2,9 +2,6 @@ hw_timer_t *My_timer = NULL;                                        // Apuntar a
 
 //#include <DHT.h>                                                  // Librería sensor de temperatura y humedad.
 #include <DHT_U.h>
-
-#define DHTPin 33                                              // Salida del sensor de temp y hum.
-#define DHTTipo DHT11                                         // Sensor tipo DHT11.
                          
 volatile int i=0;                                         // Variable usada por el contador.
 volatile boolean cruce_cero=0;                           // Variable que actúa como switch al detectar cruce por cero.
@@ -18,13 +15,10 @@ volatile double dT;                            // Delta de tiempo.
 double kp=20;                                 // Ganancia control proporcional.
 double ki=0.1;                               // Ganancia control proporcional.
 double kd = 10;                             // Ganancia control derivativo.
-double Sep_temp = 37.00;                   // Seteo de la temperatura.
 double error=0;                           // Variable de error en el sistema de calefacción.
 double Error_suma=0;                     // Variable que guarda y suma los errores en un transcurso de tiempo.
 double Error_ant=0;                     // Variable que guarda el tiempo anterior después antes de que actualice el tiempo de muestreo.
 double Error_der=0;                    // Variable que calcula el error derivativo.
-
-DHT dht(DHTPin, DHTTipo);            // Se crea un objeto dht.
 
 void Dimer(){                      // Función del Dimer, detecta el cruce por cero y da el disparo cuando se llega a los grados eléctricos requeridos.
     if(bandera_modo == 2){                

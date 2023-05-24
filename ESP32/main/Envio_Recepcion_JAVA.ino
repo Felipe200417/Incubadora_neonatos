@@ -19,7 +19,9 @@ void setup_JAVA(){
 void envio_JAVA(){
     if (Serial.available() <= 0){
       if(variador_envio%2 == 0){
-      Serial.println(String(temp)+","+String(peso)+","+String(dim)+",80,");
+      //Serial.println(String(temp)+","+String(peso)+","+String(dim)+","+Valores_sensores_ARDUINO[0]+","+Valores_sensores_ARDUINO[1]+","+Valores_sensores_ARDUINO[2]+","+String(hum)+","+String(bandera_alarmas)+",");
+      Serial.println(String(temp)+","+String(peso)+","+String(dim)+","+"80"+","+"70"+","+"30"+","+String(hum)+","+String(bandera_alarmas)+","+String(Sep_temp)+",");
+
       variador_envio++;
     }
     }
@@ -39,5 +41,9 @@ void recepcion_JAVA(){
       token = strtok(NULL, ","); // Obtener el siguiente token
       i++;
     }
-  }
+
+    if(Valores_JAVA[3] > 0){
+      Sep_temp = Valores_JAVA[3];
+    }
+}
 }

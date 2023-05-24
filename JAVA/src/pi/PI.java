@@ -1,10 +1,14 @@
 package pi;
 
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
+import gnu.io.UnsupportedCommOperationException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,19 +16,28 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import panamahitek.Arduino.PanamaHitek_Arduino;
 
 public class PI extends JFrame implements SerialPortEventListener {
 
     JButton jbDatosBB, jbDatosAmbiente, jbParar, jbModo, jbFormularios;
+    String TemperaturaActual = "", TemperaturaPID = "", PesoBascula = "";
     boolean LUZ = false, VENTILADOR = false;
     String portName = "COM11";
     int baudRate = 9600;
     String[] ESP32 = new String[4];
-    String receivedData;
-    String[] Datareceived_ESP32 = new String[3];
+    String receivedData, dato_a_enviar;
+    String[] Datareceived_ESP32 = new String[9];
     JLabel TempAmb = null;
+    JLabel TempAmb_1 = null;
+    JLabel Peso_1 = null;
     JLabel TempHum = null;
+    JLabel TempBebe = null;
+    JLabel ECG = null;
+    JLabel Oxigeno_Sangre = null;
+    JLabel Peso = null;
+    JLabel Temp_PID = null;
     JFrame actual;
     boolean isAlert = false;
     
@@ -132,6 +145,15 @@ public class PI extends JFrame implements SerialPortEventListener {
     }
 
     public void EventoParar() {
+        try {
+                    ESP32[0] = "0";
+                    dato_a_enviar = ","+ESP32[0]+","+"\n";
+                    System.out.println(dato_a_enviar);
+                    recepcion_ESP.sendData(dato_a_enviar);
+                } catch (UnsupportedCommOperationException | IOException | NoSuchPortException | PortInUseException ex) {  
+                } catch (Exception ex) {
+                    Logger.getLogger(Modo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(null, "Se apago todo!!!");
     }
 
@@ -156,23 +178,43 @@ public class PI extends JFrame implements SerialPortEventListener {
 
             if (TempAmb != null) {
                 TempAmb.setText(Datareceived_ESP32[0]);
-                TempHum.setText(Datareceived_ESP32[1]);
+                TempHum.setText(Datareceived_ESP32[6]);
 
             }
+            
+            if (TempBebe != null) {
+                Peso.setText(Datareceived_ESP32[1]);
+                TempBebe.setText(Datareceived_ESP32[3]);
+                Oxigeno_Sangre.setText(Datareceived_ESP32[5]);
 
+            }
+            
+            if(Peso_1 != null){
+                Peso_1.setText(Datareceived_ESP32[1]);
+                TempAmb_1.setText(Datareceived_ESP32[0]);
+                Temp_PID.setText(Datareceived_ESP32[8]);
+            }
+            
+            
+            TemperaturaActual = Datareceived_ESP32[0];
+            PesoBascula = Datareceived_ESP32[1];     
             receivedData = recepcion_ESP.printMessage();
             Datareceived_ESP32 = receivedData.split(",");
-            if(Datareceived_ESP32[3].equals("80") && !isAlert){
-                System.out.println("JEJE");
-                new AlertaDialog(this,  "ALERTA", "MENSAJE");
+            if(Datareceived_ESP32[7].equals("4") && !isAlert){
+                new AlertaDialog(this,  "ALERTA", "APERTURA INCUBADORA");
                 isAlert = true;
             }
             System.out.println(Datareceived_ESP32[0]);
             System.out.println(Datareceived_ESP32[1]);
-            System.out.println(Datareceived_ESP32[2] + " ....");
+            System.out.println(Datareceived_ESP32[2]);
             System.out.println(Datareceived_ESP32[3]);
-            
-
+            System.out.println(Datareceived_ESP32[4]);
+            System.out.println(Datareceived_ESP32[5]);
+            System.out.println(Datareceived_ESP32[6]);
+            System.out.println(Datareceived_ESP32[7]);
+            System.out.println(Datareceived_ESP32[8]);
+            System.out.println("");
+           
         }
     }
 

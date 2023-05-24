@@ -5,12 +5,12 @@ triac............................ pin 19
 
 módulo puente H
 
-	IN1....................... pin 18       luz uv
+	IN1....................... pin 22       luz uv
 	IN2....................... pin 21       Ventilador centrífugo
 
 tarjeta relés 2
 
-	Pin 22				         extractor
+	Pin 18				         extractor
 
 tarjeta relés 1
 
@@ -28,5 +28,35 @@ Módulo celda de carga
 	SCK........................ pin 26
 
 escala = -174
+
+
+ORDEN PARA ENVIO DE DATOS DESDE EL ARREGLO DE ARDUINO A ESP32:
+
+0- Temperatura bebe
+1- Electrocardiograma
+2- Oxigenacion en la sangre
+
+ORDEN PARA ENVIO DE DATOS DESDE EL ARREGLO DE ESP32 A JAVA:
+
+0- Temperatura Ambiente
+1- Peso
+2- Disparo PID
+3- Temperatura Bebe
+4- Electrocardiograma
+5- Oxigenacion en la sangre
+6- Humedad del ambiente
+7- Alarmas
+8- Sep_temp
+
+
+
+ORDEN PARA ENVIO DE DATOS DESDE EL ARREGLO DE JAVA A ESP32:
+
+0- Modo
+1- Actuadores
+2- Tara
+3- PID temperatura
+
+
 	
 	

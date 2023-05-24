@@ -1,3 +1,5 @@
+#include <DHT_U.h>
+
 // Variables a controlar manualmente
 const int ventilador = 21;
 const int luz_uv = 22;
@@ -13,6 +15,9 @@ void setup_Manual(){
 }
 
 void modo_manual(){
+            
+  temp = dht.readTemperature();
+  Get_peso();
 
   if(Valores_JAVA[1] == 11 && Valores_JAVA[0] == 1){
     digitalWrite(ventilador,HIGH);
