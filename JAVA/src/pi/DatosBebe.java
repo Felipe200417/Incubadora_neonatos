@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Integer.parseInt;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -104,6 +105,8 @@ public class DatosBebe extends JFrame {
         JLabel jlEDG = new JLabel(Img5);
         jlEDG.setBounds(390, 190, 450, 195);
         add(jlEDG); //falta funcion para imprimir electrocardiograma
+        
+        
         
         
 

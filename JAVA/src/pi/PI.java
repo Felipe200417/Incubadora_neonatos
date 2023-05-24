@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +30,7 @@ public class PI extends JFrame implements SerialPortEventListener {
     String[] ESP32 = new String[4];
     String receivedData, dato_a_enviar;
     String[] Datareceived_ESP32 = new String[9];
+    long ECG_bebe;
     JLabel TempAmb = null;
     JLabel TempAmb_1 = null;
     JLabel Peso_1 = null;
@@ -134,7 +136,7 @@ public class PI extends JFrame implements SerialPortEventListener {
     }
 
     public void EventoDatosBB() {
-        actual = new DatosBebe(this);
+        actual = new Electrocardiograma(this);
         setVisible(false);
     }
 
@@ -204,6 +206,9 @@ public class PI extends JFrame implements SerialPortEventListener {
                 new AlertaDialog(this,  "ALERTA", "APERTURA INCUBADORA");
                 isAlert = true;
             }
+            
+            ECG_bebe = parseInt(Datareceived_ESP32[4]);
+            
             System.out.println(Datareceived_ESP32[0]);
             System.out.println(Datareceived_ESP32[1]);
             System.out.println(Datareceived_ESP32[2]);
